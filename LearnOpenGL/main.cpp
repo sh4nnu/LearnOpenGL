@@ -117,13 +117,22 @@ int main() {
     // Drawing....
     // Setup vertex data and configure vertex attributes
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+        0.0f,  0.5f, 0.0f, //top right
+         0.5f, -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, //bottom left
+        -0.5f, 0.5f, 0.0f   // top left
     };
+    
+    unsigned int indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
+    };
+    
     // Creating a vertex Buffer Object, to store vertices in GPU's mem.
     unsigned int VBO;
     unsigned int VAO;
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1,&VBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
@@ -131,6 +140,10 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     //copy the previously defined vertex data into the buffer's memory.
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //bind EBO and copy data
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
     //Linking vertex attributes
     glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -140,7 +153,7 @@ int main() {
 //    glBindVertexArray(0);
     
   //To draw in wireframe mode
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		
 
     //-- Render loop --
     while(!glfwWindowShouldClose(window))  {
@@ -155,6 +168,7 @@ int main() {
         glUseProgram(shaderProgram);
         //glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+//        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // using EBO
         // check polls and swap buffers
         glfwPollEvents();
         glfwSwapBuffers(window);
