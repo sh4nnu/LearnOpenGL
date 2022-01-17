@@ -6,7 +6,7 @@
 //
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include <cmath>
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window,  int width, int height);
@@ -28,9 +28,10 @@ const char *vertexShaderSource = "#version 330 core\n"
 //Simple Fragment shader - decides the color output of the pixels.
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
+    "uniform vec4 ourColor;\n"
     "void main()\n"
     "{\n"
-        "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+        "FragColor = ourColor;\n"
     "}\0";
 
 int main() {
@@ -164,8 +165,11 @@ int main() {
            // color
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        
+        float time = glfwGetTime();
+        float greenValue = (sin(time) / 2.0f) + 0.5f;
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
         glUseProgram(shaderProgram);
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
         //glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 //        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // using EBO
