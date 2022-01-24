@@ -99,10 +99,10 @@ int main() {
 	// ------------------------
 
 
-	unsigned int texture;
-	glGenTextures(1, &texture);
+	unsigned int texture1, texture2;
+	glGenTextures(1, &texture1);
 	//bind the texture
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, texture1);
 	// set texture wrapping parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -124,6 +124,33 @@ int main() {
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+	
+	
+	// bind texture 2.
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	// set texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	data = stbi_load("/Users/kishan/Desktop/mk/online-courses/LearnOpenGL/LearnOpenGL/LearnOpenGL/assets/awesomeface.png", &width, &height, &nrChannels, 0);
+	
+	// Generating a texture
+	if(data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	} else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+	
+	ourShader.use();
+	ourShader.setInt("texture1", 0);
+	ourShader.setInt("texture2", 1);
+	
   //To draw in wireframe mode
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -140,7 +167,10 @@ int main() {
 //        float greenValue = (sin(time) / 2.0f) + 0.5f;
 //        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 		// bind texture
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
 		ourShader.use();
 //        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
         glBindVertexArray(VAO);
@@ -150,6 +180,10 @@ int main() {
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
+	//delete unwanted buffers
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
     glfwTerminate();
     return 0;
 }
