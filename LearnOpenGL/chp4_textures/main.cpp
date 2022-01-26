@@ -177,8 +177,6 @@ int main() {
 		unsigned int transLoc = glGetUniformLocation(ourShader.shaderProgramId, "transform");
 		glUniformMatrix4fv(transLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		
-		
-		
 		// bind texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
