@@ -8,5 +8,4 @@
 #ifndef Shader_h
 #define Shader_h
 
-
 #endif /* Shader_h */

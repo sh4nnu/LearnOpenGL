@@ -17,7 +17,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window,  int width, int height);
 void  processInput(GLFWwindow* window);
-void rotateCamera(glm::mat4 &view, int &viewLoc);
+
 //screen size
 const unsigned int SCR_HEIGHT = 600;
 const unsigned int SCR_WIDTH = 800;
@@ -240,13 +240,8 @@ int main() {
 		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 		unsigned int transLoc = glGetUniformLocation(ourShader.shaderProgramId, "transform");
-		
-		//camera movements
-		
-		rotateCamera(view, viewLoc);
-
-		
 //		glUniformMatrix4fv(transLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		
 		// bind texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
@@ -286,12 +281,4 @@ void  processInput(GLFWwindow* window) {
     //close on  esc key press
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-}
-
-void rotateCamera(glm::mat4 &view, int &viewLoc){
-	const float radius = 10.0f;
-	float camX = sin(glfwGetTime()) * radius;
-	float camZ = cos(glfwGetTime()) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 }
