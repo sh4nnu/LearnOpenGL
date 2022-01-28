@@ -41,6 +41,7 @@
 		DA7B08F6276A1A6E00E0E8B3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../usr/local/Cellar/glfw/3.3.4/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		DA7B08F8276A305A00E0E8B3 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		DAC1EB5227971F8000401A01 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		DAFFEC1627A323C20078EA22 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +85,7 @@
 				DA7B08E8276A126500E0E8B3 /* main.cpp */,
 				DA2368132795871400736664 /* Shader.h */,
 				DA0F4D00279C5F5E00AC5ECF /* stb_image.h */,
+				DAFFEC1627A323C20078EA22 /* Camera.h */,
 			);
 			path = LearnOpenGL;
 			sourceTree = "<group>";
